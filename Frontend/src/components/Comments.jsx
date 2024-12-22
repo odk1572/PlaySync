@@ -18,7 +18,7 @@ const Comments = ({ videoId }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/comments/${videoId}?page=${page}&limit=10`, {
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/comments/${videoId}?page=${page}&limit=10`, {
         withCredentials: true,
       });
       if (page === 1) {
@@ -39,7 +39,7 @@ const Comments = ({ videoId }) => {
       return;
     }
     try {
-      const response = await axios.post(`http://localhost:8000/api/v1/comments/${videoId}`, {
+      const response = await axios.post(`https://playsync-1-7xxc.onrender.com/api/v1/comments/${videoId}`, {
         content: newComment
       }, {
         withCredentials: true,
@@ -54,7 +54,7 @@ const Comments = ({ videoId }) => {
 
   const handleUpdateComment = async (commentId) => {
     try {
-      const response = await axios.patch(`http://localhost:8000/api/v1/comments/c/${commentId}`, {
+      const response = await axios.patch(`https://playsync-1-7xxc.onrender.com/api/v1/comments/c/${commentId}`, {
         content: editingComment.content
       }, {
         withCredentials: true,
@@ -71,7 +71,7 @@ const Comments = ({ videoId }) => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/comments/c/${commentId}`, {
+      await axios.delete(`https://playsync-1-7xxc.onrender.com/api/v1/comments/c/${commentId}`, {
         withCredentials: true,
       });
       setComments(comments.filter(comment => comment._id !== commentId));
@@ -87,7 +87,7 @@ const Comments = ({ videoId }) => {
       return;
     }
     try {
-      await axios.post(`http://localhost:8000/api/v1/likes/toggle/c/${commentId}`, {}, {
+      await axios.post(`https://playsync-1-7xxc.onrender.com/api/v1/likes/toggle/c/${commentId}`, {}, {
         withCredentials: true,
       });
       setComments(comments.map(comment => 

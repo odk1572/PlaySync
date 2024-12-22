@@ -20,7 +20,7 @@ const PlaylistModal = ({ videoId, onClose }) => {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/playlist/user/${user._id}`);
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/playlist/user/${user._id}`);
       setPlaylists(response.data.data);
     } catch (error) {
       console.error('Error fetching playlists:', error);
@@ -31,7 +31,7 @@ const PlaylistModal = ({ videoId, onClose }) => {
   const handleCreatePlaylist = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/v1/playlist', {
+      await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/playlist', {
         name: newPlaylistName,
         description: newPlaylistDescription
       });
@@ -46,7 +46,7 @@ const PlaylistModal = ({ videoId, onClose }) => {
 
   const handleAddToPlaylist = async (playlistId) => {
     try {
-      await axios.patch(`http://localhost:8000/api/v1/playlist/add/${videoId}/${playlistId}`);
+      await axios.patch(`https://playsync-1-7xxc.onrender.com/api/v1/playlist/add/${videoId}/${playlistId}`);
       toast.success('Video added to playlist');
     } catch (error) {
       toast.error('Failed to add video to playlist');

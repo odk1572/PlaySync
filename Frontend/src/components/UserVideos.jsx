@@ -22,7 +22,7 @@ const UserVideos = ({ username }) => {
     try {
       // Assuming you have `username` available in your component
       const response = await axios.get(
-        `http://localhost:8000/api/v1/users/c/${username}/videos`,  // Ensure this endpoint matches your backend
+        `https://playsync-1-7xxc.onrender.com/api/v1/users/c/${username}/videos`,  // Ensure this endpoint matches your backend
         { withCredentials: true }
       );
       setVideos(response.data.data);

@@ -16,7 +16,7 @@ const PasswordChange = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/v1/users/change-password', passwords, {
+      await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/users/change-password', passwords, {
         withCredentials: true
       });
       toast.success('Password changed successfully');

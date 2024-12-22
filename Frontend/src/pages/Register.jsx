@@ -52,7 +52,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/register', formDataToSend, {
+      const response = await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/users/register', formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

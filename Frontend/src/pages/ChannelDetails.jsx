@@ -23,7 +23,7 @@ const ChannelDetails = () => {
 
   const fetchChannelData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/users/c/${username}`, {
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/users/c/${username}`, {
         withCredentials: true,
       });
       console.log(response.data.data);  // Check the structure of the response
@@ -41,7 +41,7 @@ const ChannelDetails = () => {
   const fetchChannelVideos = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/users/c/${username}/videos`,
+        `https://playsync-1-7xxc.onrender.com/api/v1/users/c/${username}/videos`,
         {
           withCredentials: true,
         }
@@ -61,7 +61,7 @@ const ChannelDetails = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/subscriptions/c/${channelData._id}`,
+        `https://playsync-1-7xxc.onrender.com/api/v1/subscriptions/c/${channelData._id}`,
         {},
         { withCredentials: true }
       );

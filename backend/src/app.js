@@ -8,7 +8,7 @@ import path from "path";
 const app = express();
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173', // Allow frontend origin
+    origin: process.env.CORS_ORIGIN || 'https://playsync-1-7xxc.onrender.com', // Allow frontend origin
     credentials: true, // Allow cookies and credentials
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']

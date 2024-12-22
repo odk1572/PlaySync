@@ -19,7 +19,7 @@ const SubscribedChannels = () => {
 
   const fetchSubscribedChannels = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/subscriptions/c/${user._id}`, {
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/subscriptions/c/${user._id}`, {
         withCredentials: true
       });
       setChannels(response.data.data);

@@ -31,7 +31,7 @@ const VideoPlayer = () => {
 
   const fetchVideo = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/videos/${videoId}`);
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/videos/${videoId}`);
       console.log(response.data.data.videoFile);  // Log the video file URL
       setVideo(response.data.data);
       setIsLiked(response.data.data.isLikedByUser);
@@ -42,7 +42,7 @@ const VideoPlayer = () => {
 
   const incrementViewCount = async () => {
     try {
-      await axios.patch(`http://localhost:8000/api/v1/videos/view/${videoId}`);
+      await axios.patch(`https://playsync-1-7xxc.onrender.com/api/v1/videos/view/${videoId}`);
     } catch (error) {
       console.error('Failed to increment view count', error);
     }
@@ -94,7 +94,7 @@ const VideoPlayer = () => {
       return;
     }
     try {
-      await axios.post(`http://localhost:8000/api/v1/likes/toggle/v/${videoId}`);
+      await axios.post(`https://playsync-1-7xxc.onrender.com/api/v1/likes/toggle/v/${videoId}`);
       setIsLiked(!isLiked);
       toast.success(isLiked ? 'Video unliked' : 'Video liked');
     } catch (error) {

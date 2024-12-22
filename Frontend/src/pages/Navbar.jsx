@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:8000/api/v1/users/logout');
+      await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/users/logout');
       setUserAuth(false);
       setUser(null);
       navigate('/');

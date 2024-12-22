@@ -33,7 +33,7 @@ const App = () => {
   const getUserInfo = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/users/c`,
+        `https://playsync-1-7xxc.onrender.com/api/v1/users/c`,
         null,
         {
           withCredentials: true,

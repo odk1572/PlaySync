@@ -17,7 +17,7 @@ const PlaylistList = () => {
 
   const fetchPlaylists = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/playlist/user/${user._id}`);
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/playlist/user/${user._id}`);
       console.log(response.data); // Check the structure of the response data
       if (response.data && response.data.data) {
         setPlaylists(response.data.data);
@@ -32,7 +32,7 @@ const PlaylistList = () => {
 
   const handleDeletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/playlist/${playlistId}`);
+      await axios.delete(`https://playsync-1-7xxc.onrender.com/api/v1/playlist/${playlistId}`);
       toast.success('Playlist deleted successfully');
       fetchPlaylists();
     } catch (error) {

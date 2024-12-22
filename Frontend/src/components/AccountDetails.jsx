@@ -16,7 +16,7 @@ const AccountDetails = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.patch('http://localhost:8000/api/v1/users/update-account', formData, {
+      const response = await axios.patch('https://playsync-1-7xxc.onrender.com/api/v1/users/update-account', formData, {
         withCredentials: true
       });
       toast.success('Account details updated successfully');

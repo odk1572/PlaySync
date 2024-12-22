@@ -15,7 +15,7 @@ const PlaylistItem = () => {
 
   const fetchPlaylist = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/playlist/${playlistId}`);
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/playlist/${playlistId}`);
       setPlaylist(response.data.data);
     } catch (error) {
       console.error(error); // Log error for debugging
@@ -25,7 +25,7 @@ const PlaylistItem = () => {
 
   const handleRemoveVideo = async (videoId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/playlist/remove/${videoId}/${playlistId}`);
+      await axios.delete(`https://playsync-1-7xxc.onrender.com/api/v1/playlist/remove/${videoId}/${playlistId}`);
       toast.success('Video removed from playlist');
       fetchPlaylist();
     } catch (error) {

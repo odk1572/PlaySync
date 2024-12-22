@@ -52,7 +52,7 @@ const VideoUpload = () => {
     setProgress(0);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/videos', uploadData, {
+      const response = await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/videos', uploadData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',

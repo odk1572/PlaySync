@@ -24,7 +24,7 @@ const UserVideosManagement = () => {
 
   const fetchUserVideos = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/users/c/${user.username}/videos`, {
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/users/c/${user.username}/videos`, {
         withCredentials: true
       });
       setVideos(response.data.data);
@@ -40,7 +40,7 @@ const UserVideosManagement = () => {
     const formData = new FormData(e.target);
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/videos/${editingVideo._id}`,
+        `https://playsync-1-7xxc.onrender.com/api/v1/videos/${editingVideo._id}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -58,7 +58,7 @@ const UserVideosManagement = () => {
   const handleDeleteVideo = async (videoId) => {
     if (window.confirm('Are you sure you want to delete this video?')) {
       try {
-        await axios.delete(`http://localhost:8000/api/v1/videos/${videoId}`, {
+        await axios.delete(`https://playsync-1-7xxc.onrender.com/api/v1/videos/${videoId}`, {
           withCredentials: true
         });
         setVideos(videos.filter(v => v._id !== videoId));

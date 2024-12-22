@@ -22,7 +22,7 @@ const Home = () => {
     if (loading || (!hasMore && !isNewSearch)) return;
     setLoading(true);
     try {
-      let endpoint = 'http://localhost:8000/api/v1/videos/';
+      let endpoint = 'https://playsync-1-7xxc.onrender.com/api/v1/videos/';
       let params = {
         page: isNewSearch ? 1 : page,
         limit: 12,
@@ -31,7 +31,7 @@ const Home = () => {
       };
 
       if (searchQuery.trim()) {
-        endpoint = 'http://localhost:8000/api/v1/videos/search';
+        endpoint = 'https://playsync-1-7xxc.onrender.com/api/v1/videos/search';
         params.q = searchQuery;
         setIsSearching(true);
       } else {

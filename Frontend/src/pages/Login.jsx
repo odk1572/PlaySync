@@ -28,7 +28,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/users/login', formData, {
+      const response = await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/users/login', formData, {
         withCredentials: true,
       });
 

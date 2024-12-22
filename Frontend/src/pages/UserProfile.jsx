@@ -25,7 +25,7 @@ const UserProfile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/users/c/${user.username}`, {
+      const response = await axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/users/c/${user.username}`, {
         withCredentials: true
       });
       setChannelData(response.data.data);
@@ -36,7 +36,7 @@ const UserProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:8000/api/v1/users/logout', {}, {
+      await axios.post('https://playsync-1-7xxc.onrender.com/api/v1/users/logout', {}, {
         withCredentials: true
       });
       setUser(null);

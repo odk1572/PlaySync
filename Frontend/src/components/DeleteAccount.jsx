@@ -10,7 +10,7 @@ const DeleteAccount = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete('http://localhost:8000/api/v1/users/delete-account', {
+      await axios.delete('https://playsync-1-7xxc.onrender.com/api/v1/users/delete-account', {
         withCredentials: true
       });
       toast.success('Account deleted successfully');

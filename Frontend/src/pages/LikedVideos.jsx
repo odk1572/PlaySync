@@ -21,7 +21,7 @@ const LikedVideos = () => {
 
     const fetchLikedVideos = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/likes/videos/', {
+        const response = await axios.get('https://playsync-1-7xxc.onrender.com/api/v1/likes/videos/', {
           withCredentials: true,
         });
         console.log(response); // Add this line to see the full response object
@@ -35,7 +35,7 @@ const LikedVideos = () => {
 
         // Fetch details for each video by its ID
         const videoRequests = likedVideoIds.map((like) =>
-          axios.get(`http://localhost:8000/api/v1/videos/${like.video}`).catch((err) => {
+          axios.get(`https://playsync-1-7xxc.onrender.com/api/v1/videos/${like.video}`).catch((err) => {
             console.error('Error fetching video:', err);
             return null; // Return null if the request fails
           })
