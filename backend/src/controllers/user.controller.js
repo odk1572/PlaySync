@@ -8,6 +8,10 @@ import { v2 as cloudinary} from "cloudinary";
 import fs from "fs";
 import mongoose from "mongoose";
 import { Video } from "../models/video.models.js";
+import {Comment} from "../models/comment.model.js";
+import {Subscription} from "../models/subscription.models.js";
+import {Like} from "../models/like.model.js";
+import {Playlist} from "../models/playlist.model.js";
 
 
 const generateAccessAndRefreshToken = (async(userId)=>{
@@ -476,29 +480,46 @@ const getWatchHistory = asyncHandler(async(req, res) => {
 });
 
 
-const deleteUserAccount = asyncHandler(async (req, res) => {
-    const userId = req.user._id;
-    const user = await User.findById(userId);
+const deleteUserAccount = asyncHandler(async (req, res, next) => {
+    try {
+        const userId = req.user?._id; // Ensure userId exists from middleware
 
-    if (!user) {
-        throw new ApiError(404, "User not found");
+        if (!userId) {
+            console.error("User ID not provided in req.user");
+            throw new ApiError(400, "User ID is missing from request");
+        }
+
+        // Check if the user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            console.error(`User with ID ${userId} not found`);
+            throw new ApiError(404, "User not found");
+        }
+
+        // Delete all related data in parallel
+        await Promise.all([
+            Video.deleteMany({ owner: userId }),
+            Comment.deleteMany({ user: userId }),
+            Subscription.deleteMany({ $or: [{ subscriber: userId }, { channel: userId }] }),
+            Like.deleteMany({ user: userId }),
+            Playlist.deleteMany({ owner: userId }),
+        ]);
+
+        // Delete user account
+        const deleteResult = await User.deleteOne({ _id: userId });
+        if (deleteResult.deletedCount === 0) {
+            console.error(`Failed to delete user with ID ${userId}`);
+            throw new ApiError(500, "Failed to delete user account");
+        }
+
+        console.log(`User account and related data deleted successfully for ID: ${userId}`);
+
+        return res.status(200).json({ message: "User account and all related data deleted successfully" });
+    } catch (error) {
+        console.error("Error in deleteUserAccount:", error.message || error);
+        next(error); // Pass the error to global error handler
     }
-
-    await Video.deleteMany({ owner: userId });
-
-    await Comment.deleteMany({ user: userId });
-
-    await Subscription.deleteMany({ $or: [{ subscriber: userId }, { channel: userId }] });
-
-    await Like.deleteMany({ user: userId });
-
-    await Playlist.deleteMany({ owner: userId });
-
-
-    await User.deleteOne({ _id: userId });
-
-    return res.status(200).json({ message: "User account and all related data deleted successfully" });
-})
+});
 
 const getUserVideos = async (req, res) => {
     try {
