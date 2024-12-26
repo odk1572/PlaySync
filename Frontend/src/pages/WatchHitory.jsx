@@ -23,7 +23,9 @@ const WatchHistory = () => {
       const response = await axios.get('https://playsync-1-7xxc.onrender.com/api/v1/users/history', {
         withCredentials: true,
       });
-      setWatchHistory(response.data.data.filter((video) => video)); // Filter out null or undefined items
+      // Filter out invalid entries
+      const validVideos = response.data.data.filter((video) => video && video._id);
+      setWatchHistory(validVideos);
       setLoading(false);
     } catch (error) {
       toast.error('Failed to fetch watch history');
@@ -37,7 +39,7 @@ const WatchHistory = () => {
         data: { videoId },
         withCredentials: true,
       });
-      setWatchHistory(watchHistory.filter((item) => item?._id !== videoId)); // Safely filter out the video
+      setWatchHistory(watchHistory.filter((item) => item._id !== videoId));
       toast.success('Video removed from watch history');
     } catch (error) {
       toast.error('Failed to remove video from watch history');
@@ -50,7 +52,7 @@ const WatchHistory = () => {
         await axios.delete('https://playsync-1-7xxc.onrender.com/api/v1/users/delete-watch-history', {
           withCredentials: true,
         });
-        setWatchHistory([]); // Clear all items
+        setWatchHistory([]);
         toast.success('Watch history cleared');
       } catch (error) {
         toast.error('Failed to clear watch history');
@@ -97,8 +99,10 @@ const WatchHistory = () => {
               transition={{ duration: 0.5 }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {watchHistory.map((video) =>
-                video ? ( // Safely check if video exists
+              {watchHistory.map((video) => {
+                // Log video data for debugging
+                console.log('Rendering video:', video);
+                return (
                   <motion.div
                     key={video._id}
                     layout
@@ -117,8 +121,8 @@ const WatchHistory = () => {
                       <FaTrash />
                     </button>
                   </motion.div>
-                ) : null // Skip null/undefined videos
-              )}
+                );
+              })}
             </motion.div>
           </AnimatePresence>
         )}
