@@ -116,7 +116,7 @@ const Comments = ({ videoId }) => {
         </button>
       </form>
       <div className="space-y-4">
-      {comments.map(comment => (
+     {comments.map(comment => (
   <div key={comment._id} className="bg-gray-800 p-4 rounded-lg">
     {editingComment && editingComment._id === comment._id ? (
       <form onSubmit={() => handleUpdateComment(comment._id)}>
@@ -138,12 +138,11 @@ const Comments = ({ videoId }) => {
     ) : (
       <>
         <div className="flex items-center space-x-4 mb-2">
-          {/* Check if comment.owner is defined */}
           {comment.owner ? (
             <>
               <img 
                 src={comment.owner.avatar || '/default-avatar.png'} 
-                alt={comment.owner.username} 
+                alt={comment.owner.username || 'Unknown User'} 
                 className="w-10 h-10 rounded-full" 
               />
               <div>
@@ -161,9 +160,9 @@ const Comments = ({ videoId }) => {
             <button onClick={() => handleLikeComment(comment._id)} className="text-gray-400 hover:text-blue-500">
               <FaThumbsUp className={comment.isLiked ? 'text-blue-500' : ''} />
             </button>
-            <span>{comment.likes} like</span>
+            <span>{comment.likes} likes</span>
           </div>
-          {user && user._id === comment.owner._id && (
+          {user && comment.owner && user._id === comment.owner._id && (
             <div className="flex space-x-2">
               <button onClick={() => setEditingComment(comment)} className="text-gray-400 hover:text-yellow-500">
                 <FaEdit />
