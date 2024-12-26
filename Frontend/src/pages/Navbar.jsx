@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../UserContextProvider';
 import axios from 'axios';
-import { FaHome, FaUpload, FaHeart, FaList, FaUser, FaSignOutAlt, FaBell, FaBars, FaTimes, FaEdit } from 'react-icons/fa';
+import { FaHome, FaUpload, FaHeart, FaList, FaUser, FaSignOutAlt, FaBell, FaBars, FaTimes, FaEdit ,FaHistory} from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, userAuth, setUserAuth, setUser } = useContext(UserContext);
@@ -232,6 +232,7 @@ const Navbar = () => {
                   <NavLink to="/liked-videos" icon={<FaHeart className="text-lg" />}>Liked Videos</NavLink>
                   <NavLink to="/playlists" icon={<FaList className="text-lg" />}>Playlists</NavLink>
                   <NavLink to="/subscribed" icon={<FaBell className="text-lg" />}>Subscriptions</NavLink> {/* Added Subscriptions */}
+                  <NavLink to="/watch-history" icon={<FaHistory className="text-lg" />}>Watch History</NavLink>
                   <NavLink to="/profile" icon={<FaUser className="text-lg" />}>Your Profile</NavLink>
                   <button
                     onClick={handleLogout}
@@ -272,6 +273,7 @@ const Navbar = () => {
               <NavLink to="/liked-videos" icon={<FaHeart className="text-lg" />}>Liked Videos</NavLink>
               <NavLink to="/playlists" icon={<FaList className="text-lg" />}>Playlists</NavLink>
               <NavLink to="/subscribed" icon={<FaBell className="text-lg" />}>Subscriptions</NavLink> {/* Added Subscriptions */}
+              <NavLink to="/watch-history" icon={<FaHistory className="text-lg" />}>Watch History</NavLink>
               <NavLink to="/profile" icon={<FaUser className="text-lg" />}>Your Profile</NavLink>
               <button
                 onClick={handleLogout}
