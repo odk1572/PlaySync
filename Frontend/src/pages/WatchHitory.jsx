@@ -6,6 +6,7 @@ import { FaTrash, FaHistory } from 'react-icons/fa';
 import { UserContext } from '../../UserContextProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 import VideoCard from '../components/VideoCard';
+
 const WatchHistory = () => {
   const [watchHistory, setWatchHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,9 +21,9 @@ const WatchHistory = () => {
   const fetchWatchHistory = async () => {
     try {
       const response = await axios.get('https://playsync-1-7xxc.onrender.com/api/v1/users/history', {
-        withCredentials: true
+        withCredentials: true,
       });
-      setWatchHistory(response.data.data);
+      setWatchHistory(response.data.data.filter((video) => video)); // Filter out null or undefined items
       setLoading(false);
     } catch (error) {
       toast.error('Failed to fetch watch history');
@@ -34,9 +35,9 @@ const WatchHistory = () => {
     try {
       await axios.delete('https://playsync-1-7xxc.onrender.com/api/v1/users/delete-watch-history', {
         data: { videoId },
-        withCredentials: true
+        withCredentials: true,
       });
-      setWatchHistory(watchHistory.filter(item => item._id !== videoId));
+      setWatchHistory(watchHistory.filter((item) => item?._id !== videoId)); // Safely filter out the video
       toast.success('Video removed from watch history');
     } catch (error) {
       toast.error('Failed to remove video from watch history');
@@ -47,9 +48,9 @@ const WatchHistory = () => {
     if (window.confirm('Are you sure you want to clear your entire watch history?')) {
       try {
         await axios.delete('https://playsync-1-7xxc.onrender.com/api/v1/users/delete-watch-history', {
-          withCredentials: true
+          withCredentials: true,
         });
-        setWatchHistory([]);
+        setWatchHistory([]); // Clear all items
         toast.success('Watch history cleared');
       } catch (error) {
         toast.error('Failed to clear watch history');
@@ -96,26 +97,28 @@ const WatchHistory = () => {
               transition={{ duration: 0.5 }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {watchHistory.map((video) => (
-                <motion.div
-                  key={video._id}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative group"
-                >
-                  <VideoCard video={video} />
-                  <button
-                    onClick={() => handleDeleteHistoryItem(video._id)}
-                    className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    aria-label="Remove from history"
+              {watchHistory.map((video) =>
+                video ? ( // Safely check if video exists
+                  <motion.div
+                    key={video._id}
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative group"
                   >
-                    <FaTrash />
-                  </button>
-                </motion.div>
-              ))}
+                    <VideoCard video={video} />
+                    <button
+                      onClick={() => handleDeleteHistoryItem(video._id)}
+                      className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-label="Remove from history"
+                    >
+                      <FaTrash />
+                    </button>
+                  </motion.div>
+                ) : null // Skip null/undefined videos
+              )}
             </motion.div>
           </AnimatePresence>
         )}
@@ -125,4 +128,3 @@ const WatchHistory = () => {
 };
 
 export default WatchHistory;
-
