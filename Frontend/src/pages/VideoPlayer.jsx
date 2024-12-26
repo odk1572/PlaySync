@@ -48,10 +48,23 @@ const VideoPlayer = () => {
     }
   };
 
+  const addToWatchHistory = async () => {
+    if (!userAuth) return; // Only add to watch history if user is authenticated
+    try {
+      await axios.patch('https://playsync-1-7xxc.onrender.com/api/v1/users/update-watch-history', 
+        { videoId },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error('Failed to update watch history', error);
+    }
+  };
+
   const handlePlayPause = () => {
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
+      addToWatchHistory(); // Add to watch history when video starts playing
     } else {
       videoRef.current.pause();
       setIsPlaying(false);
@@ -260,3 +273,4 @@ const VideoPlayer = () => {
 };
 
 export default VideoPlayer;
+
