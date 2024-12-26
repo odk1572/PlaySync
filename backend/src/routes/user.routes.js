@@ -14,6 +14,7 @@ import {
     deleteUserAccount,      
     getUserVideos, 
     deleteWatchHistory,
+    updateWatchHistory
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -70,6 +71,7 @@ router.route("/delete-account").delete(verifyJWT, deleteUserAccount);
 
 router.route("/c/:username/videos").get(getUserVideos);
 router.route("/delete-watch-history").delete(verifyJWT, deleteWatchHistory);
+router.route("/update-watch-history").patch(verifyJWT, updateWatchHistory);
 
 
 export default router;
