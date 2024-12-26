@@ -455,29 +455,39 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     );
 });
 
-const getWatchHistory = asyncHandler(async(req, res) => {
-    if (!req.user || !req.user._id) {
+
+const getWatchHistory = asyncHandler(async (req, res) => {
+    if (!req.user?.id) {
         throw new ApiError(400, "User ID not provided");
     }
 
     try {
-        // Simplified query to only check for the user's watchHistory
-        const user = await User.findOne({ _id: req.user._id });
+        const user = await User.findById(req.user._id);
 
-        console.log("User Data:", user); // Log user data
+        console.log("User Data:", user);
 
-        if (!user || !user.watchHistory || user.watchHistory.length === 0) {
-            throw new ApiError(404, "No watch history found");
+        // Return a success response even if watchHistory is empty
+        if (!user?.watchHistory || user.watchHistory.length === 0) {
+            return res.status(200).json(
+                new ApiResponse(200, [], "No watch history found for this user")
+            );
         }
 
         return res.status(200).json(
             new ApiResponse(200, user.watchHistory, "Watch history fetched successfully")
         );
     } catch (error) {
-        console.error("Error during fetching watch history:", error);  // Log full error for debugging
-        throw new ApiError(500, "Something went wrong");
+        console.error("Error fetching watch history:", error.message, error.stack);
+        
+        // Return server error only for unexpected issues
+        if (error instanceof ApiError) {
+            throw error; // Retain original error for client issues
+        }
+
+        throw new ApiError(500, "Internal server error");
     }
 });
+
 
 
 const deleteUserAccount = asyncHandler(async (req, res, next) => {
@@ -612,20 +622,33 @@ const updateWatchHistory = asyncHandler(async (req, res) => {
     const { videoId } = req.body;
     const userId = req.user._id;
 
-
-    const user = await User.findById(userId);
-
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+    // Validate the videoId
+    if (!videoId) {
+        return res.status(400).json({ message: 'Video ID is required' });
     }
 
-    user.watchHistory.push(videoId);
-    await user.save();
-    return res.status(200).json({ message: 'Video added to watch history' })
+    try {
+        const user = await User.findById(userId);
 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-})
+        // Check if videoId already exists in watchHistory
+        if (user.watchHistory.includes(videoId)) {
+            return res.status(200).json({ message: 'Video is already in watch history' });
+        }
 
+        // Add videoId to watchHistory and save
+        user.watchHistory.push(videoId);
+        await user.save();
+
+        return res.status(200).json({ message: 'Video added to watch history' });
+    } catch (error) {
+        console.error('Error updating watch history:', error.message, error.stack);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 export {
     registerUser,
