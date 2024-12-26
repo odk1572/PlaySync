@@ -161,7 +161,7 @@ const Comments = ({ videoId }) => {
             <button onClick={() => handleLikeComment(comment._id)} className="text-gray-400 hover:text-blue-500">
               <FaThumbsUp className={comment.isLiked ? 'text-blue-500' : ''} />
             </button>
-            <span>{comment.likes} likes</span>
+            <span>{comment.likes} like</span>
           </div>
           {user && user._id === comment.owner._id && (
             <div className="flex space-x-2">
