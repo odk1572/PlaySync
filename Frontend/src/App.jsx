@@ -23,6 +23,7 @@ import Navbar from './pages/Navbar';
 import Footer from './components/Footer';
 import SubscribedChannels from './pages/SubscribedChannels';
 import UserVideosManagement from './pages/UserVideosManagement';
+import WatchHistory from './pages/WatchHitory';
 
 const App = () => {
   const { userAuth, setUserAuth, setUser } = useContext(UserContext);
@@ -77,6 +78,11 @@ const App = () => {
         <Route path="/liked-videos" 
         element={userAuth ? <LikedVideos /> : <Navigate to="/login" />} 
         />
+         <Route
+          path="/watch-history"
+          element={userAuth ? <WatchHistory /> : <Navigate to="/login" />}
+        />
+      
         <Route
           path="/profile"
           element={userAuth ? <UserProfile /> : <Navigate to="/login" />}
