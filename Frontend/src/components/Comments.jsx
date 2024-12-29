@@ -63,7 +63,8 @@ const Comments = ({ videoId }) => {
   const handleUpdateComment = async (commentId) => {
     try {
       const response = await axios.patch(`https://playsync-1-7xxc.onrender.com/api/v1/comments/c/${commentId}`, {
-        content: editingComment.content
+        content: editingComment.content,
+        videoId: videoId
       }, {
         withCredentials: true,
       });
@@ -83,6 +84,7 @@ const Comments = ({ videoId }) => {
   const handleDeleteComment = async (commentId) => {
     try {
       await axios.delete(`https://playsync-1-7xxc.onrender.com/api/v1/comments/c/${commentId}`, {
+        data: { videoId: videoId },
         withCredentials: true,
       });
       setComments(prevComments =>
@@ -165,7 +167,7 @@ const Comments = ({ videoId }) => {
             <div className="flex items-center space-x-4">
               <button onClick={() => handleLikeComment(comment._id)} className="flex items-center space-x-1 text-gray-400 hover:text-blue-500">
                 <FaThumbsUp className={comment.isLiked ? 'text-blue-500' : ''} />
-                <span>{comment.likes} likes</span>
+                <span>{comment.likes || 0} likes</span>
               </button>
             </div>
             {user && user._id === comment.owner?._id && (
