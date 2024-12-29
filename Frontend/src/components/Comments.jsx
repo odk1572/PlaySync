@@ -32,6 +32,7 @@ const Comments = ({ videoId }) => {
       }
       setHasMore(response.data.data.length === 10);
     } catch (error) {
+      console.error('Error fetching comments:', error);
       toast.error('Failed to load comments');
     } finally {
       setLoading(false);
@@ -54,6 +55,7 @@ const Comments = ({ videoId }) => {
       setNewComment('');
       toast.success('Comment added successfully');
     } catch (error) {
+      console.error('Error adding comment:', error);
       toast.error('Failed to add comment');
     }
   };
@@ -73,6 +75,7 @@ const Comments = ({ videoId }) => {
       setEditingComment(null);
       toast.success('Comment updated successfully');
     } catch (error) {
+      console.error('Error updating comment:', error);
       toast.error('Failed to update comment');
     }
   };
@@ -87,6 +90,7 @@ const Comments = ({ videoId }) => {
       );
       toast.success('Comment deleted successfully');
     } catch (error) {
+      console.error('Error deleting comment:', error);
       toast.error('Failed to delete comment');
     }
   };
@@ -112,6 +116,7 @@ const Comments = ({ videoId }) => {
         )
       );
     } catch (error) {
+      console.error('Error liking comment:', error);
       toast.error('Failed to update like');
     }
   };
@@ -146,12 +151,13 @@ const Comments = ({ videoId }) => {
           <div className="flex items-start mb-2">
             <img 
               src={comment.owner?.avatar || '/placeholder.svg?height=40&width=40'} 
-              alt={comment.owner?.username || 'Anonymous'} 
+              alt={comment.owner?.username || 'User'} 
               className="w-10 h-10 rounded-full mr-3" 
             />
             <div>
-              <p className="font-semibold">{comment.owner?.username || 'Anonymous'}</p>
-              <p className="text-gray-400 text-sm">{new Date(comment.createdAt).toLocaleDateString()}</p>
+              <p className="font-semibold">{comment.owner?.username || 'Unknown User'}</p>
+              <p className="text-gray-400 text-sm">{comment.owner?.fullName || ''}</p>
+              <p className="text-gray-400 text-xs">{new Date(comment.createdAt).toLocaleString()}</p>
             </div>
           </div>
           <p className="mb-2">{comment.content}</p>
