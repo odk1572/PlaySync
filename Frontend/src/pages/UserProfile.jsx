@@ -57,7 +57,7 @@ const UserProfile = () => {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/users/${type === 'avatar' ? 'avatar' : 'cover-image'}`,
+        `https://playsync-1-7xxc.onrender.com/api/v1/users/${type === 'avatar' ? 'avatar' : 'cover-image'}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
